@@ -1,0 +1,141 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct Node
+{
+    int data;
+    struct Node *next;
+} Node;
+void insert(Node **head, int value)
+{
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = value;
+    newNode->next = NULL;
+    if (*head == NULL)
+    {
+        *head = newNode;
+        return;
+    }
+    Node *current = *head;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    current->next = newNode;
+    return;
+}
+void deleteEnd(Node **head)
+{
+    Node *ptr, *ptr1;
+    if (*head == NULL)
+    {
+        printf("\nlist is empty");
+    }
+    else if (head == NULL)
+    {
+        free(head);
+        *head = NULL;
+        printf("\nOnly node of the list deleted ...");
+    }
+    else
+    {
+        ptr = *head;
+        while (ptr->next != NULL)
+        {
+            ptr1 = ptr;
+            ptr = ptr->next;
+        }
+        ptr1->next = NULL;
+        free(ptr);
+        printf("\n Deleted Node from the last ...");
+    }
+}
+void deleteStart(Node **head)
+{
+    if (*head == NULL)
+    {
+        printf("\nList is empty");
+    }
+    else
+    {
+        Node *ptr = *head;
+        *head = ptr->next;
+        free(ptr);
+        printf("\n Node deleted from the begining ...");
+    }
+}
+void deleteSpecified(Node **head, int loc)
+{
+    Node *ptr;
+    ptr = *head;
+    Node *ptr1;
+    if (*head == NULL)
+    {
+        printf("\nList is empty");
+        return;
+    }
+    for (int i = 1; i < loc; i++)
+    {
+        ptr1 = ptr;
+        ptr = ptr->next;
+        if (ptr == NULL)
+        {
+            printf("\nThere are less than %d elements in the list..\n", loc);
+            return;
+        }
+    }
+    ptr1->next = ptr->next;
+    free(ptr);
+    printf("\nDeleted %d node ", loc);
+}
+void displayList(Node *node)
+{
+    printf("\nLinked List: ");
+    while (node != NULL)
+    {
+        printf("%d -> ", node->data);
+        node = node->next;
+    }
+    printf("NULL\n");
+}
+int main()
+{
+    Node *head = NULL;
+    printf("Enter the Linked List Insert and Delete Operation : \n 1. Insert \n 2.Delete At Beginning \n 3.Delete At Given Position \n 4.Delete At End \n 5. Display \n 6.  Exit\n");
+    printf("Enter 4 to Exit Insertion and Display List..\n");
+    int value, choice, run = 1;
+    while (run)
+    {
+        printf("\nEnter Choice : ");
+        scanf("%d", &choice);
+        switch (choice)
+        {
+        case 1:
+            printf("\nEnter Value to be Inserted : ");
+            scanf("%d", &value);
+            insert(&head, value);
+            break;
+        case 2:
+            deleteStart(&head);
+            break;
+        case 3:
+            printf("Enter The Location : ");
+            int loc;
+            scanf("%d", &loc);
+            deleteSpecified(&head, loc);
+            break;
+        case 4:
+            deleteEnd(&head);
+            break;
+        case 5:
+            displayList(head);
+            break;
+        case 6:
+            run = 0;
+            break;
+        default:
+            printf("Wrong Choice Entered ....");
+            break;
+        }
+    }
+    return 0;
+} 
