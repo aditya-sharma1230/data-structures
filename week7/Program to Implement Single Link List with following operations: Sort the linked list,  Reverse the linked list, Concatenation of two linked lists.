@@ -1,0 +1,125 @@
+#include <stdio.h>  
+#include <stdlib.h>  
+typedef struct Node  
+{  
+ int data;  
+ struct Node *next;  
+} Node;  
+// Function to display the contents of the linked list  
+void displayList(Node *node)  
+{  
+ printf("\nLinked List: ");  
+ while (node != NULL)  
+ {  
+ printf("%d -> ", node->data);  
+ node = node->next;  
+ }  
+ printf("NULL\n");  
+}  
+// Function to insert a node at the end of the linked list  
+void insertAtEnd(Node **head, int value)
+{  
+ Node *newNode = (Node *)malloc(sizeof(Node));   
+ newNode->data = value;  
+ newNode->next = NULL;  
+ if (*head == NULL)  
+ {  
+ *head = newNode;  
+ return;  
+ }  
+ Node *current = *head;  
+ while (current->next != NULL)  
+ {  
+ current = current->next;  
+ }  
+ current->next = newNode;  
+ return;  
+}  
+// Function to sort the linked list in ascending order  
+void sortLinkedList(Node *head)  
+{  
+ if (head == NULL || head->next == NULL)   {  
+ return; // Already sorted or empty list  
+ }  
+ // Bubble sort for simplicity  
+ int swapped;
+ Node *temp;  
+ Node *last = NULL;  
+ do  
+ {  
+ swapped = 0;  
+ temp = head;  
+ while (temp->next != last)  
+ {  
+ if (temp->data > temp->next->data)  
+ {  
+ // Swap data if the current node is greater than the next node  
+ int tempData = temp->data;  
+ temp->data = temp->next->data;  
+ temp->next->data =tempData;  
+ swapped = 1;  
+ }  
+ temp = temp->next;  
+ }  
+ last = temp;  
+ } while (swapped);  
+ displayList(head);  
+}  
+// Function to reverse the linked list  
+void reverseLinkedList(Node **head)  
+{  
+ Node *prev = NULL;  
+ Node *current = *head;  
+ Node *next = NULL;
+ while (current != NULL)  
+ {  
+ next = current->next; // Save the next node  
+ current->next = prev; // Reverse the link  
+ prev = current; // Move to the next nodes
+ current = next;  
+ }  
+ *head = prev; // Update the new head of the reversed list  
+ displayList(*head);  
+}  
+// Function to concatenate two linked lists  
+void concatenateLinkedLists(Node *list1, Node *list2)  {  
+ if (list1 == NULL)  
+ {  
+ displayList(list2);  
+ return;  
+ }  
+ Node *current = list1;  
+ while (current->next != NULL)  
+ {  
+ current = current->next;  
+ }  
+ current->next = list2;
+ displayList(list1);  
+}  
+int main()  
+{  
+ Node *head1 = NULL;  
+ Node *head2 = NULL;  
+ // Inserting nodes into the first linked list  
+ insertAtEnd(&head1, 30);  
+ insertAtEnd(&head1, 50);  
+ insertAtEnd(&head1, 20);  
+ insertAtEnd(&head1, 10);  
+ // Inserting nodes into the second linked list  
+ insertAtEnd(&head2, 8);  
+ insertAtEnd(&head2, 4);  
+ insertAtEnd(&head2, 6);  
+ // Displaying the original linked lists  
+ printf("Original Linked List 1: ");   displayList(head1);  
+ printf("Original Linked List 2: ");   displayList(head2);  
+ // Sorting the first linked list  
+ printf("Sorted Linked List 1: ");  
+ sortLinkedList(head1);
+ // Reversing the second linked list  
+ printf("Reversed Linked List 2: ");  
+ reverseLinkedList(&head2);  
+ // Concatenating the two linked lists  
+ printf("Concatenated Linked List: ");  
+ concatenateLinkedLists(head1, head2);  
+ return 0;  
+}  
