@@ -1,0 +1,104 @@
+// WAP to Implement a Single Link List to simulate Stack & Queue Operations.  
+#include <stdio.h>  
+#include <stdlib.h>  
+typedef struct Node  
+{  
+ int data;  
+ struct Node *next;  
+} Node;  
+// Function to display the contents of the linked list  
+void displayList(Node *node)  
+{  
+ while (node != NULL)  
+ {  
+ printf("%d -> ", node->data);  
+ node = node->next;  
+ }  
+ printf("NULL\n");  
+}  
+void push(Node **head, int value)  
+{  
+ Node *newNode = (Node *)malloc(sizeof(Node));  
+ newNode->data = value;  
+ newNode->next = *head;  
+ *head = newNode;
+ printf("\nNode %d Inserted At Start",value);  
+}  
+void pop(Node **head)  
+{  
+ if (*head == NULL)  
+ {  
+ printf("\nList is empty");  
+ }  
+ else  
+ {  
+ Node *ptr;  
+ ptr = *head;  
+ *head = ptr->next;  
+ printf("\n Node %d deleted from the begining ...", ptr->data);  
+ free(ptr);  
+ }  
+}  
+void enqueue(Node **head, int value)  
+{  
+ Node *newNode = (Node *)malloc(sizeof(Node));  
+ newNode->data = value;  
+ newNode->next = NULL;  
+ if (*head == NULL)  
+ {  
+ *head = newNode;
+ printf("\nNode %d Inserted At End",value);  
+ return;  
+ }  
+ Node *current;  
+ current = *head;  
+ while (current->next != NULL)  
+ {  
+ current = current->next;  
+ }  
+ current->next = newNode;  
+ printf("\nNode %d Inserted At End",value);  
+ return;  
+}  
+void dequeue(Node **head)  
+{  
+ if (*head == NULL)  
+ {  
+ printf("\nList is empty");  
+ }  
+ else  
+ {  
+ Node *ptr;  
+ ptr = *head;  
+ *head = ptr->next;  
+ printf("\n Node %d deleted from the begining ...", ptr->data);  
+ free(ptr);  
+ }
+}  
+int main()  
+{  
+ Node *head1 = NULL;  
+ Node *head2 = NULL;  
+ // Push and Pop from Stack  
+ printf("Stack Operations\n");  
+ printf("\nPush Operation");  
+ push(&head1, 30);  
+ push(&head1, 50);  
+ push(&head1, 20);  
+ push(&head1, 10);  
+ printf("\nPop Operation");  
+ pop(&head1);  
+ // Inserting nodes into the second linked list  
+ printf("\n\nQueue Operations\n");  
+ printf("Enqueue Operation\n");  
+ enqueue(&head2, 8);  
+ enqueue(&head2, 4);  
+ enqueue(&head2, 6);  
+ printf("\nDequeue Operation\n");   dequeue(&head2);  
+ // Displaying the Stack and Queue
+ printf("\n\n STACK : ");  
+ displayList(head1);  
+ printf("\n QUEUE : ");  
+ displayList(head2);  
+ return 0;  
+}  
