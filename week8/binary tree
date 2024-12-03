@@ -1,0 +1,85 @@
+//LAB PROGRAM 8 :  
+//Write a program  
+//a) To construct a Binary Search tree.  
+//b) To traverse the tree using all the methods i.e., in-order,  preorder and post order To display the elements in the tree.  
+#include <stdio.h>  
+#include <stdlib.h>  
+// Define the structure for tree node  
+typedef struct Node  
+{  
+ int data;  
+ struct Node *left;  
+ struct Node *right;  
+}Node;  
+Node *createNode(int value)  
+{  
+ Node *newNode = (Node *)malloc(sizeof(Node));   newNode->data = value;  
+ newNode->left = NULL;  
+ newNode->right = NULL;  
+ return newNode;  
+}  
+Node *insert(Node *treeNode, int value)  
+{ 
+ if (treeNode == NULL)  
+ {  
+ return createNode(value);  
+ }  
+ if (value < treeNode->data)  
+ {  
+ treeNode->left = insert(treeNode->left, value);   }  
+ else if (value > treeNode->data)  
+ {  
+ treeNode->right = insert(treeNode->right, value);   }  
+ // return the (unchanged) node pointer  
+ return treeNode;  
+}  
+// Function for in-order traversal  
+void inorderTraversal(Node *treeNode)  
+{  
+ if (treeNode != NULL)  
+ {  
+ inorderTraversal(treeNode->left);  
+ printf("%d ", treeNode->data);  
+ inorderTraversal(treeNode->right);  
+ }  
+} 
+// Function for pre-order traversal  
+void preorderTraversal(Node *treeNode)  {  
+ if (treeNode != NULL)  
+ {  
+ printf("%d ", treeNode->data);  
+ preorderTraversal(treeNode->left);   preorderTraversal(treeNode->right);   }  
+}  
+// Function for post-order traversal  
+void postorderTraversal(Node *treeNode)  {  
+ if (treeNode != NULL)  
+ {  
+ postorderTraversal(treeNode->left);   postorderTraversal(treeNode->right);   printf("%d ", treeNode->data);  
+ }  
+}  
+void displayTree(Node *treeNode)  
+{  
+ printf("Elemens in the binary search tree:\n");   printf("\nIn-order traversal: ");  
+ inorderTraversal(treeNode);  
+ printf("\nPre-order traversal: ");  
+ preorderTraversal(treeNode);  
+ printf("\nPost-order traversal: ");  
+ postorderTraversal(treeNode);  
+}  
+int main()  
+{  
+ int value;  
+ char ch;  
+ Node *root = NULL;  
+ do{  
+ printf("\nEnter The value : ");  
+ scanf("%d",&value);  
+ root = insert(root,value);  
+ printf("\nDo You want to enter more values : ");   getchar();  
+ scanf("%c",&ch);  
+ }while(ch=='y'|ch=='Y');  
+ // Construct the binary search tree  
+ displayTree(root);  
+ return 0;  
+} 
+
